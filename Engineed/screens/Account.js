@@ -26,40 +26,40 @@ const Account = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
+    console.log("Attempting to log in:", username, password);
 
     try {
-      const route = activeTab === "login" ? "/login" : "/register";
-      const res = await api.post(route, { username, password });
-      console.log("API response:", res.data);
+      const route = activeTab === "login" ? "api/token/" : "api/user/register/";
+
+      const payload = { username, password };
+
+      const res = await api.post(route, payload, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      console.log("API Response:", res.data);
 
       if (activeTab === "login") {
         await AsyncStorage.setItem("ACCESS_TOKEN", res.data.access);
         await AsyncStorage.setItem("REFRESH_TOKEN", res.data.refresh);
-        console.log("Logged in as:", username);
-
-        if (username.includes("Executive")) {
-          navigation.navigate("Executive");
-        } else if (username.includes("Adviser")) {
-          navigation.navigate("Adviser");
-        } else if (username.includes("Engineer")) {
-          navigation.navigate("Engineer");
-        } else if (username.includes("Utility")) {
-          navigation.navigate("Utility");
-        } else if (username.includes("Labtech")) {
-          navigation.navigate("Labtech");
-        } else if (username.includes("Librarian")) {
-          navigation.navigate("Librarian");
-        } else if (username.includes("Nurse")) {
-          navigation.navigate("Nurse");
-        } else {
-          navigation.navigate("NotFound");
-        }
+        console.log("Login successful for:", username);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "LEngineer", params: { screen: "Engineer-Home" } }],
+        });
       } else {
-        navigation.navigate("Login");
+        navigation.navigate("Intro");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      Alert.alert("Error", "There was an error. Please try again.");
+      console.error("Error:", error);
+      if (error.response) {
+        console.error("Response Data:", error.response.data);
+      } else if (error.request) {
+        console.error("No Response Received:", error.request);
+      } else {
+        console.error("Request Error:", error.message);
+      }
+      Alert.alert("Error", "Login failed. Check credentials or server.");
     } finally {
       setLoading(false);
     }
@@ -73,17 +73,37 @@ const Account = () => {
 
         <View style={styles.tabContainer}>
           <TouchableOpacity
-            style={[styles.tab, activeTab === "login" ? styles.activeTab : styles.inactiveTab]}
+            style={[
+              styles.tab,
+              activeTab === "login" ? styles.activeTab : styles.inactiveTab,
+            ]}
             onPress={() => setActiveTab("login")}
           >
-            <Text style={[styles.tabText, activeTab === "login" && styles.activeTabText]}>Log In</Text>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "login" && styles.activeTabText,
+              ]}
+            >
+              Log In
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.tab, activeTab === "signup" ? styles.activeTab : styles.inactiveTab]}
+            style={[
+              styles.tab,
+              activeTab === "signup" ? styles.activeTab : styles.inactiveTab,
+            ]}
             onPress={() => setActiveTab("signup")}
           >
-            <Text style={[styles.tabText, activeTab === "signup" && styles.activeTabText]}>Sign Up</Text>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "signup" && styles.activeTabText,
+              ]}
+            >
+              Sign Up
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -112,11 +132,17 @@ const Account = () => {
             <Text style={styles.checkboxText}>Show Password</Text>
           </View>
 
-          <TouchableOpacity style={styles.loginButton} onPress={handleSubmit} disabled={loading}>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={handleSubmit}
+            disabled={loading}
+          >
             {loading ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text style={styles.loginButtonText}>{activeTab === "login" ? "Log In" : "Sign Up"}</Text>
+              <Text style={styles.loginButtonText}>
+                {activeTab === "login" ? "Log In" : "Sign Up"}
+              </Text>
             )}
           </TouchableOpacity>
         </View>

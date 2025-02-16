@@ -2,13 +2,12 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ACCESS_TOKEN } from "./constants/constants";
 
-const isDevelopment = process.env.NODE_ENV === "development";
-const myBaseUrl = isDevelopment
-  ? process.env.EXPO_PUBLIC_API_URL_LOCAL
-  : process.env.EXPO_PUBLIC_API_URL_DEPLOY;
-
 const api = axios.create({
-  baseURL: myBaseUrl,
+  baseURL: "http://192.168.50.11:8000", // Add http://
+  timeout: 30000,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 api.interceptors.request.use(

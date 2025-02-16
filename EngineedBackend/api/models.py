@@ -10,17 +10,17 @@ from django.conf import settings
 class Note(models.Model):
     # Shared fields
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,  # Supports custom or default User model
+        settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE,
         related_name="classnotes"
     )
-    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for creation
+    created_at = models.DateTimeField(auto_now_add=True) 
 
     # Submission-specific fields
-    fullName = models.CharField(max_length=75, blank=True, null=True)  # Optional for notes
-    gradeSection = models.CharField(max_length=40, blank=True, null=True)  # Optional for notes
-    completed = models.BooleanField(default=False)  # For submissions
-    dateSubmitted = models.DateTimeField(default=timezone.now)  # Allows manual input but defaults to now
+    fullName = models.CharField(max_length=75, blank=True, null=True)  
+    gradeSection = models.CharField(max_length=40, blank=True, null=True) 
+    completed = models.BooleanField(default=False)  
+    dateSubmitted = models.DateTimeField(default=timezone.now)
 
     DAMAGED_PROPERTY_CHOICES = [
         ('chair', 'Chair'),

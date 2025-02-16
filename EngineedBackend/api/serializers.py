@@ -10,9 +10,20 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        print(validated_data)
-        user = User.objects.create_user(**validated_data)
+        # Extract password before popping it
+        password = validated_data.pop("password")
+        username = validated_data.get("username")
+
+        # Check if the user already exists
+        if User.objects.filter(username=username).exists():
+            raise serializers.ValidationError({"username": "This username is already taken."})
+
+        # Create user and set password properly
+        user = User.objects.create(**validated_data)
+        user.set_password(password)  # Hash the password
+        user.save()
         return user
+
 
 
 class NoteSerializer(serializers.ModelSerializer):
