@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Checkbox from "expo-checkbox";
 import { ACCENT, TEXT, BASE, LINE } from "../assets/misc/colors";
-import api from "../api"; // Ensure you have your API setup
+import api from "../api"; 
 
 const Account = () => {
   const [activeTab, setActiveTab] = useState("login");
@@ -45,7 +45,7 @@ const Account = () => {
         console.log("Login successful for:", username);
         navigation.reset({
           index: 0,
-          routes: [{ name: "LEngineer", params: { screen: "Engineer-Home" } }],
+          routes: [{ name: "LEngineer", params: { screen: "EngHome" } }],
         });
       } else {
         navigation.navigate("Intro");

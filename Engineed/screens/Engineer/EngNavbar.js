@@ -17,16 +17,16 @@ const Navbar = () => {
 
           switch (route.name) {
             case "Home":
-              iconSource = require("../assets/images/homeicon.png");
+              iconSource = require("../../assets/images/homeicon.png");
               break;
             case "Reports":
-              iconSource = require("../assets/images/reportsicon.png");
+              iconSource = require("../../assets/images/reportsicon.png");
               break;
             case "Profile":
-              iconSource = require("../assets/images/profileicon.png");
+              iconSource = require("../../assets/images/profileicon.png");
               break;
             case "Settings":
-              iconSource = require("../assets/images/settingsicon.png");
+              iconSource = require("../../assets/images/settingsicon.png");
               break;
           }
 

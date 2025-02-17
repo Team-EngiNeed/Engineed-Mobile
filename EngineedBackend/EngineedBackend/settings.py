@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "your-default-secret-key")
 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = ["192.168.48.1", "127.0.0.1", "localhost", "192.168.50.11", '192.168.0.14']
+ALLOWED_HOSTS = ["192.168.48.1", "127.0.0.1", "localhost", "192.168.50.11", '192.168.0.14', '192.168.137.141']
 
 # ✅ CORS & CSRF
 CORS_ALLOW_ALL_ORIGINS = True
