@@ -8,7 +8,7 @@ import SettingsScreen from "./EngSettings";
 
 const Tab = createBottomTabNavigator();
 
-const Navbar = () => {
+const EngNavbar = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Navbar;
+export default EngNavbar;

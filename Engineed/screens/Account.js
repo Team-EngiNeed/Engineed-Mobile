@@ -44,10 +44,10 @@ const Account = () => {
         await AsyncStorage.setItem("REFRESH_TOKEN", res.data.refresh);
         console.log("Login successful for:", username);
         navigation.reset({
-          index: 0,
-          routes: [{ name: "LEngineer", params: { screen: "EngHome" } }],
-        });
-      } else {
+          index:  0,
+          routes: [{ name: "LEngineer" }],
+        });        
+      } else {  
         navigation.navigate("Intro");
       }
     } catch (error) {
