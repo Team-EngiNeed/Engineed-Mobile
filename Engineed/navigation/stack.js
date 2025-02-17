@@ -1,6 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import Account from "../screens/Account";
 import Intro from "../screens/Intro";
+import MainContainer from "./MainContainer";
+
 const Stack = createStackNavigator();
 
 export const PreStack = () => {
@@ -11,4 +13,3 @@ export const PreStack = () => {
     </Stack.Navigator>
   );
 };
-

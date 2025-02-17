@@ -4,8 +4,7 @@ from rest_framework import generics, permissions
 from .serializers import UserSerializer, NoteSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Note
-from rest_framework.permissions import IsAuthenticated
-
+from django.contrib.auth.models import User
 
 class AdviserNotesView(generics.ListAPIView):
     serializer_class = NoteSerializer
@@ -183,3 +182,12 @@ class NoteDetail(generics.RetrieveUpdateAPIView):
     serializer_class = NoteSerializer
     lookup_field = 'id'
     permission_classes = [permissions.IsAuthenticated] 
+
+
+
+class UserProfileView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return self.request.user

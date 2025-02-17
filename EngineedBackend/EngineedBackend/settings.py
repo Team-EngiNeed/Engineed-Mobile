@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "your-default-secret-key")
 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = ["192.168.48.1", "127.0.0.1", "localhost", "192.168.50.11", '192.168.0.14', '192.168.137.141']
+ALLOWED_HOSTS = ["192.168.48.1", "127.0.0.1", "localhost", "192.168.50.11", '192.168.0.14', '192.168.137.141', '192.168.50.7']
 
 # ✅ CORS & CSRF
 CORS_ALLOW_ALL_ORIGINS = True
@@ -88,3 +88,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}

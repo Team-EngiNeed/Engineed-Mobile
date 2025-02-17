@@ -18,4 +18,5 @@ urlpatterns = [
     path("notes/labtech/<int:pk>", views.NoteDetailLabtech.as_view(), name="note-view"),
     path('notes/<int:id>/', views.NoteDetail.as_view(), name='note-detail'),
     path('notes/delete/<int:pk>/', views.NoteDelete.as_view(), name='delete-note'),
+    path('user/profile/', views.UserProfileView.as_view(), name='user-profile'),
 ]

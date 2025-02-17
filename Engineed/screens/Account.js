@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Checkbox from "expo-checkbox";
 import { ACCENT, TEXT, BASE, LINE } from "../assets/misc/colors";
-import api from "../api"; 
+import api from "../api";
 
 const Account = () => {
   const [activeTab, setActiveTab] = useState("login");
@@ -25,12 +25,16 @@ const Account = () => {
   const navigation = useNavigation();
 
   const handleSubmit = async () => {
+    if (!username || !password) {
+      Alert.alert("Error", "Username and password cannot be empty.");
+      return;
+    }
+
     setLoading(true);
-    console.log("Attempting to log in:", username, password);
+    console.log(`Attempting to ${activeTab}:`, username);
 
     try {
       const route = activeTab === "login" ? "api/token/" : "api/user/register/";
-
       const payload = { username, password };
 
       const res = await api.post(route, payload, {
@@ -44,21 +48,14 @@ const Account = () => {
         await AsyncStorage.setItem("REFRESH_TOKEN", res.data.refresh);
         console.log("Login successful for:", username);
         navigation.reset({
-          index:  0,
-          routes: [{ name: "LEngineer" }],
-        });        
-      } else {  
-        navigation.navigate("Intro");
+          index: 0,
+          routes: [{ name: "MainContainer" }],
+        });
+      } else {
+        navigation.replace("MainContainer");
       }
     } catch (error) {
       console.error("Error:", error);
-      if (error.response) {
-        console.error("Response Data:", error.response.data);
-      } else if (error.request) {
-        console.error("No Response Received:", error.request);
-      } else {
-        console.error("Request Error:", error.message);
-      }
       Alert.alert("Error", "Login failed. Check credentials or server.");
     } finally {
       setLoading(false);
@@ -77,7 +74,11 @@ const Account = () => {
               styles.tab,
               activeTab === "login" ? styles.activeTab : styles.inactiveTab,
             ]}
-            onPress={() => setActiveTab("login")}
+            onPress={() => {
+              setActiveTab("login");
+              setUsername("");
+              setPassword("");
+            }}
           >
             <Text
               style={[
@@ -94,7 +95,11 @@ const Account = () => {
               styles.tab,
               activeTab === "signup" ? styles.activeTab : styles.inactiveTab,
             ]}
-            onPress={() => setActiveTab("signup")}
+            onPress={() => {
+              setActiveTab("signup");
+              setUsername("");
+              setPassword("");
+            }}
           >
             <Text
               style={[
