@@ -189,5 +189,5 @@ class UserProfileView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return self.request.user
+    def get_object(self):
+        return self.request.user 

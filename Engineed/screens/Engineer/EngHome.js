@@ -17,12 +17,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const EngHome = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState(""); // Store the username
-
+  const [username, setUsername] = useState("");
   const navigation = useNavigation();
 
   useEffect(() => {
-    // Load custom fonts
     async function loadFonts() {
       await Font.loadAsync({
         Outfit: require("../../assets/fonts/Outfit-VariableFont_wght.ttf"),
@@ -30,27 +28,39 @@ const EngHome = () => {
       setFontsLoaded(true);
     }
 
-    // Fetch the username
     async function fetchUserData() {
       try {
-        const response = await api.get("api/user/profile/");
-        console.log("User data:", response.data); // Log the response to check the structure
-        setUsername(response.data.username || "User"); // Default to "User" if no username
+        let response = await api.get("api/user/profile/");
+        console.log("User data:", response.data);
+        setUsername(response.data.username || "User");
       } catch (error) {
         console.error("Error fetching user data:", error);
+
+        if (error.response?.status === 401) {
+          console.log("Access token expired. Trying to refresh...");
+          try {
+            const refreshToken = await AsyncStorage.getItem("REFRESH_TOKEN");
+            if (!refreshToken) throw new Error("No refresh token found");
+
+            const refreshRes = await api.post("api/token/refresh/", {
+              refresh: refreshToken,
+            });
+
+            await AsyncStorage.setItem("ACCESS_TOKEN", refreshRes.data.access);
+            console.log("Token refreshed. Retrying user data fetch...");
+            return fetchUserData();
+          } catch (refreshError) {
+            console.error("Error refreshing token:", refreshError);
+          }
+        }
       } finally {
         setLoading(false);
       }
     }
 
-
     loadFonts();
     fetchUserData();
   }, []);
-
-  if (!fontsLoaded || loading) {
-    return <Text>Loading...</Text>; // Show loading state until data is loaded
-  }
 
   return (
     <ImageBackground
@@ -58,11 +68,15 @@ const EngHome = () => {
       style={styles.container}
       resizeMode="cover"
     >
-      <Text style={styles.welcomeText}>Welcome, {username}!</Text>
+      <Text style={styles.welcomeText}>
+        {loading ? "Loading..." : `Welcome, ${username}!`}
+      </Text>
+
       <Image
         style={styles.logo}
         source={require("../../assets/images/ENGINEED LOGO.png")}
       />
+
       <TouchableOpacity
         style={styles.btn}
         onPress={() => navigation.navigate("Account")}

@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Checkbox from "expo-checkbox";
 import { ACCENT, TEXT, BASE, LINE } from "../assets/misc/colors";
 import api from "../api";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants/constants";
 
 const Account = () => {
   const [activeTab, setActiveTab] = useState("login");
@@ -31,7 +32,6 @@ const Account = () => {
     }
 
     setLoading(true);
-    console.log(`Attempting to ${activeTab}:`, username);
 
     try {
       const route = activeTab === "login" ? "api/token/" : "api/user/register/";
@@ -41,22 +41,46 @@ const Account = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("API Response:", res.data);
-
       if (activeTab === "login") {
-        await AsyncStorage.setItem("ACCESS_TOKEN", res.data.access);
-        await AsyncStorage.setItem("REFRESH_TOKEN", res.data.refresh);
-        console.log("Login successful for:", username);
+        await AsyncStorage.setItem(ACCESS_TOKEN, res.data.access);
+        await AsyncStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+        console.log("Login successful. Tokens stored.");
+
+        // Fetch user data from API
+        const userResponse = await api.get("api/user/profile/", {
+          headers: { Authorization: `Bearer ${res.data.access}` },
+        });
+
+        if (userResponse.data) {
+          console.log("User data:", userResponse.data);
+
+          // Clear previous data and store new user data
+          await AsyncStorage.removeItem("userData"); // Clear old data
+          await AsyncStorage.setItem(
+            "userData",
+            JSON.stringify(userResponse.data)
+          );
+
+          console.log(
+            "Stored User Data:",
+            await AsyncStorage.getItem("userData")
+          );
+        }
+
         navigation.reset({
           index: 0,
           routes: [{ name: "MainContainer" }],
         });
       } else {
-        navigation.replace("MainContainer");
+        Alert.alert("Success", "Registration successful. You can now log in.");
+        setActiveTab("login");
       }
     } catch (error) {
-      console.error("Error:", error);
-      Alert.alert("Error", "Login failed. Check credentials or server.");
+      console.error("Authentication failed:", error);
+      Alert.alert(
+        "Error",
+        "Authentication failed. Check credentials or server."
+      );
     } finally {
       setLoading(false);
     }
