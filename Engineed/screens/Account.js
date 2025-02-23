@@ -67,9 +67,20 @@ const Account = () => {
           );
         }
 
+        // Determine the appropriate container based on the username
+        let containerName = "EngiMainContainer"; // Default container
+
+        if (username.includes("Executive")) {
+          containerName = "ExeMainContainer";
+        } else if (username.includes("Engineer")) {
+          containerName = "EngiMainContainer";
+        } else if (username.includes("Adviser")) {
+          containerName = "AdviContainer";
+        }
+
         navigation.reset({
           index: 0,
-          routes: [{ name: "MainContainer" }],
+          routes: [{ name: containerName }],
         });
       } else {
         Alert.alert("Success", "Registration successful. You can now log in.");
@@ -85,7 +96,6 @@ const Account = () => {
       setLoading(false);
     }
   };
-
   return (
     <>
       <StatusBar hidden />
