@@ -67,8 +67,7 @@ const Account = () => {
           );
         }
 
-        // Determine the appropriate container based on the username
-        let containerName = "EngiMainContainer"; // Default container
+        let containerName = "EngiMainContainer";
 
         if (username.includes("Executive")) {
           containerName = "ExeMainContainer";

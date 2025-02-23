@@ -17,7 +17,7 @@ import * as Font from "expo-font";
 import api from "../../api";
 import { ACCENT } from "../../assets/misc/colors";
 
-const EngProfile = () => {
+const ExeProfile = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({});
@@ -158,7 +158,10 @@ const EngProfile = () => {
       </Modal>
 
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>See the tickets</Text>
+        <Text style={styles.buttonText}>Submit a Report</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>How to Use?</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
@@ -269,4 +272,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EngProfile;
+export default ExeProfile;

@@ -1,17 +1,17 @@
 import * as React from "react";
 import { StyleSheet, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StatusBar } from "expo-status-bar";
+
 
 // Screens
 import EngHome from "../screens/Engineer/EngHome";
 import EngReports from "../screens/Engineer/EngReports";
 import EngProfile from "../screens/Engineer/EngProfile";
-import EngSubmissions from "../screens/Engineer/EngSubmissions";
+import EngSettings from "../screens/Engineer/EngSettings";
 
 const Tab = createBottomTabNavigator();
 
-export default function MainContainer() {
+export default function EngiMainContainer() {
   return (
     <>
       <Tab.Navigator
@@ -30,8 +30,8 @@ export default function MainContainer() {
               case "Profile":
                 iconSource = require("../assets/images/profileicon.png");
                 break;
-              case "Submission":
-                iconSource = require("../assets/images/receipticon.png");
+              case "Settings":
+                iconSource = require("../assets/images/settingsicon.png");
                 break;
             }
 
@@ -56,8 +56,8 @@ export default function MainContainer() {
       >
         <Tab.Screen name="Home" component={EngHome} />
         <Tab.Screen name="Reports" component={EngReports} />
-        <Tab.Screen name="Submission" component={EngSubmissions} />
         <Tab.Screen name="Profile" component={EngProfile} />
+        <Tab.Screen name="Settings" component={EngSettings} />
       </Tab.Navigator>
     </>
   );

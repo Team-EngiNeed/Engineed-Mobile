@@ -81,7 +81,7 @@ const EngHome = () => {
         style={styles.btn}
         onPress={() => navigation.navigate("Account")}
       >
-        <Text style={styles.btnText}>Submit a Report</Text>
+        <Text style={styles.btnText}>See the tickets</Text>
       </TouchableOpacity>
     </ImageBackground>
   );

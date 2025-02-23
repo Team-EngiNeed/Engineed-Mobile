@@ -1,17 +1,17 @@
 import * as React from "react";
 import { StyleSheet, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StatusBar } from "expo-status-bar";
+
 
 // Screens
-import EngHome from "../screens/Engineer/EngHome";
-import EngReports from "../screens/Engineer/EngReports";
-import EngProfile from "../screens/Engineer/EngProfile";
-import EngSubmissions from "../screens/Engineer/EngSubmissions";
+import ExeHome from "../screens/Executive/ExeHome";
+import ExeProfile from "../screens/Executive/ExeProfile";
+import ExeReports from "../screens/Executive/ExeReports";
+import ExeSubmissions from "../screens/Executive/ExeSubmissions";
 
 const Tab = createBottomTabNavigator();
 
-export default function MainContainer() {
+export default function ExeMainContainer() {
   return (
     <>
       <Tab.Navigator
@@ -24,7 +24,7 @@ export default function MainContainer() {
               case "Home":
                 iconSource = require("../assets/images/homeicon.png");
                 break;
-              case "Reports":
+              case "Report":
                 iconSource = require("../assets/images/reportsicon.png");
                 break;
               case "Profile":
@@ -54,10 +54,10 @@ export default function MainContainer() {
           tabBarStyle: styles.tabBar,
         })}
       >
-        <Tab.Screen name="EXECUTIVE TO" component={EngHome} />
-        <Tab.Screen name="Reports" component={EngReports} />
-        <Tab.Screen name="Submission" component={EngSubmissions} />
-        <Tab.Screen name="Profile" component={EngProfile} />
+        <Tab.Screen name="Home" component={ExeHome} />
+        <Tab.Screen name="Report" component={ExeReports} />
+        <Tab.Screen name="Submission" component={ExeSubmissions} />
+        <Tab.Screen name="Profile" component={ExeProfile} />
       </Tab.Navigator>
     </>
   );
