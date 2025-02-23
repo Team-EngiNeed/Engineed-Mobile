@@ -1,9 +1,15 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constants/constants";
+import { API_URL_LOCAL, API_URL_DEPLOY } from "@env";
+
+const isDevelopment = __DEV__;
+const myBaseUrl = isDevelopment ? API_URL_LOCAL : API_URL_DEPLOY;
+
+console.log("Base URL:", myBaseUrl);
 
 const api = axios.create({
-  baseURL: "http://192.168.50.7:8080", // Update as needed
+  baseURL: myBaseUrl,
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",
@@ -16,12 +22,9 @@ const refreshToken = async () => {
     const refresh = await AsyncStorage.getItem(REFRESH_TOKEN);
     if (!refresh) throw new Error("No refresh token found");
 
-    const response = await axios.post(
-      "http://192.168.50.7:8080/api/token/refresh/",
-      {
-        refresh,
-      }
-    );
+    const response = await axios.post(`${myBaseUrl}/api/token/refresh/`, {
+      refresh,
+    });
 
     const newAccessToken = response.data.access;
     await AsyncStorage.setItem(ACCESS_TOKEN, newAccessToken);

@@ -19,10 +19,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.teamengineed.Engineed"
     },
     "web": {
       "favicon": "./assets/images/logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "238c4814-43e7-47a8-8699-58d9d03751aa"
+      }
     }
   }
 }

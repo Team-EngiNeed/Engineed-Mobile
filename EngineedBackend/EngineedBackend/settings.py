@@ -8,11 +8,10 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "your-default-secret-key")
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = True
 
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
-
-ALLOWED_HOSTS = ["192.168.48.1", "127.0.0.1", "localhost", "192.168.50.11", '192.168.0.14', '192.168.137.141', '192.168.50.7']
+ALLOWED_HOSTS = []
 
 # ✅ CORS & CSRF
 CORS_ALLOW_ALL_ORIGINS = True
@@ -97,3 +96,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
+
+STATIC_URL = 'static/'
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+STATIC_ROOT = BASE_DIR/'staticfiles'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
