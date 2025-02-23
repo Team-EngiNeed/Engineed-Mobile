@@ -19,7 +19,7 @@ import { ACCENT } from "../../assets/misc/colors";
 import { useNavigation } from "@react-navigation/native";
 
 
-const ExeProfile = () => {
+const AdviProfile = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({});
@@ -163,7 +163,7 @@ const ExeProfile = () => {
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
-          navigation.navigate("ExeMainContainer", { screen: "Report" })
+          navigation.navigate("AdviMainContainer", { screen: "Report" })
         }
       >
         <Text style={styles.buttonText}>See the tickets</Text>
@@ -277,4 +277,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExeProfile;
+export default AdviProfile;

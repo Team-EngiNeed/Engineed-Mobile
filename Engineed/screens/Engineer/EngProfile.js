@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
 import api from "../../api";
 import { ACCENT } from "../../assets/misc/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const EngProfile = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -23,6 +24,7 @@ const EngProfile = () => {
   const [userData, setUserData] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editableData, setEditableData] = useState({});
+  const navigation = useNavigation();
 
   const today = new Date().toLocaleDateString("en-US", {
     year: "numeric",
@@ -157,7 +159,12 @@ const EngProfile = () => {
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate("ExeMainContainer", { screen: "Report" })
+        }
+      >
         <Text style={styles.buttonText}>See the tickets</Text>
       </TouchableOpacity>
       <TouchableOpacity

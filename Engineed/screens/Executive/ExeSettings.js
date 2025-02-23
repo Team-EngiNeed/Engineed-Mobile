@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome, Ionicons, Feather } from "@expo/vector-icons";
 import * as Notifications from "expo-notifications";
 
-const EngSettings = () => {
+const ExeSettings = () => {
   const navigation = useNavigation();
 
   // Enable Notifications Function
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EngSettings;
+export default ExeSettings;

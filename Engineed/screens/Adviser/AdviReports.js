@@ -12,7 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import api from "../../api";
 
-const EngReports = () => {
+const AdviserReports = () => {
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,7 +22,7 @@ const EngReports = () => {
 
   const fetchReports = async () => {
     try {
-      const response = await api.get("/api/notes/engineer/");
+      const response = await api.get("/api/notes/adviser/");
       setReports(response.data);
     } catch (error) {
       console.error("Error fetching reports:", error);
@@ -30,7 +30,7 @@ const EngReports = () => {
   };
 
   useEffect(() => {
-    fetchReports(); // Fetch data on mount
+    fetchReports();
   }, []);
 
   // Pull-to-Refresh Handler
@@ -217,33 +217,6 @@ const EngReports = () => {
                   )}
                 </Text>
 
-                {/* Toggle Completion Button */}
-                <TouchableOpacity
-                  style={{
-                    marginTop: 15,
-                    backgroundColor: selectedReport.completed
-                      ? "#DC3545"
-                      : "#28A745",
-                    padding: 10,
-                    borderRadius: 5,
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                  }}
-                  onPress={toggleCompletionStatus}
-                  disabled={updating}
-                >
-                  {updating ? (
-                    <ActivityIndicator size="small" color="#fff" />
-                  ) : (
-                    <Text style={{ color: "white", fontWeight: "bold" }}>
-                      {selectedReport.completed
-                        ? "Mark as Incomplete"
-                        : "Mark as Complete"}
-                    </Text>
-                  )}
-                </TouchableOpacity>
-
                 <TouchableOpacity
                   style={{
                     marginTop: 10,
@@ -267,4 +240,4 @@ const EngReports = () => {
   );
 };
 
-export default EngReports;
+export default AdviserReports;

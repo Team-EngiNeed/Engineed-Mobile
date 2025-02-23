@@ -69,12 +69,18 @@ const Account = () => {
 
         let containerName = "EngiMainContainer";
 
-        if (username.includes("Executive")) {
+        if (
+          ["Executive", "Nurse", "Labtech", "Librarian"].some((role) =>
+            username.includes(role)
+          )
+        ) {
           containerName = "ExeMainContainer";
-        } else if (username.includes("Engineer")) {
+        } else if (
+          ["Engineer", "Utility"].some((role) => username.includes(role))
+        ) {
           containerName = "EngiMainContainer";
         } else if (username.includes("Adviser")) {
-          containerName = "AdviContainer";
+          containerName = "AdviMainContainer";
         }
 
         navigation.reset({

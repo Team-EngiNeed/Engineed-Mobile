@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import api from "../../api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ExeHome = () => {
+const AdviHome = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
@@ -79,9 +79,9 @@ const ExeHome = () => {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => navigation.navigate("ExeMainContainer", { screen: "Report" })}
+        onPress={() => navigation.navigate("AdviMainContainer", { screen: "Report" })}
       >
-        <Text style={styles.btnText}>Submit a Report</Text>
+        <Text style={styles.btnText}>See the tickets</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExeHome;
+export default AdviHome;

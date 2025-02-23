@@ -79,7 +79,9 @@ const EngHome = () => {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => navigation.navigate("Account")}
+        onPress={() =>
+          navigation.navigate("EngiMainContainer", { screen: "Reports" })
+        }
       >
         <Text style={styles.btnText}>See the tickets</Text>
       </TouchableOpacity>

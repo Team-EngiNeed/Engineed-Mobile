@@ -2,18 +2,15 @@ import * as React from "react";
 import { StyleSheet, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-
 // Screens
-import ExeHome from "../screens/Executive/ExeHome";
-import ExeProfile from "../screens/Executive/ExeProfile";
-import ExeReports from "../screens/Executive/ExeReports";
-import ExeSettings from "../screens/Executive/ExeSettings";
-
-
+import AdviHome from "../screens/Adviser/AdviHome";
+import AdviProfile from "../screens/Adviser/AdviProfile";
+import AdviReports from "../screens/Adviser/AdviReports";
+import AdviSettings from "../screens/Adviser/AdviSettings";
 
 const Tab = createBottomTabNavigator();
 
-export default function ExeMainContainer() {
+export default function AdviMainContainer() {
   return (
     <>
       <Tab.Navigator
@@ -56,10 +53,10 @@ export default function ExeMainContainer() {
           tabBarStyle: styles.tabBar,
         })}
       >
-        <Tab.Screen name="Home" component={ExeHome} />
-        <Tab.Screen name="Report" component={ExeReports} />
-        <Tab.Screen name="Profile" component={ExeProfile} />
-        <Tab.Screen name="Settings" component={ExeSettings} />
+        <Tab.Screen name="Home" component={AdviHome} />
+        <Tab.Screen name="Report" component={AdviReports} />
+        <Tab.Screen name="Profile" component={AdviProfile} />
+        <Tab.Screen name="Settings" component={AdviSettings} />
       </Tab.Navigator>
     </>
   );
