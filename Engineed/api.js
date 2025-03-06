@@ -1,15 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constants/constants";
-import { API_URL_LOCAL, API_URL_DEPLOY } from "@env";
-
-const isDevelopment = __DEV__;
-const myBaseUrl = isDevelopment ? API_URL_LOCAL : API_URL_DEPLOY;
-
-console.log("Base URL:", myBaseUrl);
 
 const api = axios.create({
-  baseURL: myBaseUrl,
+  baseURL: "https://engineedbackend.onrender.com",
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",
@@ -22,16 +16,22 @@ const refreshToken = async () => {
     const refresh = await AsyncStorage.getItem(REFRESH_TOKEN);
     if (!refresh) throw new Error("No refresh token found");
 
-    const response = await axios.post(`${myBaseUrl}/api/token/refresh/`, {
-      refresh,
-    });
+    const response = await axios.post(
+      `${api.defaults.baseURL}/api/token/refresh/`,
+      {
+        refresh,
+      }
+    );
 
     const newAccessToken = response.data.access;
     await AsyncStorage.setItem(ACCESS_TOKEN, newAccessToken);
 
+    console.log("Token refreshed successfully!");
     return newAccessToken;
   } catch (error) {
     console.error("Failed to refresh token:", error);
+    await AsyncStorage.removeItem(ACCESS_TOKEN);
+    await AsyncStorage.removeItem(REFRESH_TOKEN);
     return null;
   }
 };
@@ -39,7 +39,7 @@ const refreshToken = async () => {
 // Add request interceptor
 api.interceptors.request.use(
   async (config) => {
-    let token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    const token = await AsyncStorage.getItem(ACCESS_TOKEN);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -52,14 +52,19 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
-      console.log("Access token expired. Trying to refresh...");
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      console.log("Access token expired. Attempting refresh...");
+      originalRequest._retry = true;
+
       const newAccessToken = await refreshToken();
       if (newAccessToken) {
-        error.config.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api.request(error.config);
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api.request(originalRequest);
       }
     }
+
     return Promise.reject(error);
   }
 );
